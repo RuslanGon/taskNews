@@ -9,7 +9,6 @@
         text-align: center;
     }
     
-    
     .categories {
     display: flex;
     gap: 10px;
@@ -28,11 +27,9 @@
     transition: background 0.2s, color 0.2s;
     }
     
-    
     .catBtn:hover {
     background: #ddd;
     }
-    
     
     .activeBtn {
     background: #007bff;
@@ -42,11 +39,9 @@
     border: none;
     }
     
-    
     .loading {
     font-size: 18px;
     }
-    
     
     .error {
     color: red;

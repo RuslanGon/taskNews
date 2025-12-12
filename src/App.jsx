@@ -57,7 +57,7 @@ export default function App() {
 
   return (
     <div className={styles.app}>
-      <h1 className={styles.mainText}>Новости мира</h1>
+      <h1 className={styles.mainText}>Новини світу</h1>
       <SearchBar onSearch={handleSearch} />
       <div className={styles.categories}>
         {CATEGORIES.map((c) => (
@@ -71,7 +71,7 @@ export default function App() {
         ))}
       </div>
 
-      {loading && <p className={styles.loading}>Загрузка...</p>}
+      {loading && <p className={styles.loading}>Завантаження...</p>}
       {error && <p className={styles.error}>{error}</p>}
 
       {!selectedArticle ? (
