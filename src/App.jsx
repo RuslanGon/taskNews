@@ -5,7 +5,6 @@ import NewsList from "./components/NewsList";
 import NewsDetail from "./components/NewsDetail";
 import { fetchArticles } from "./services/newsApi";
 
-// категории для фильтрации
 const CATEGORIES = [
   "general",
   "business",
@@ -23,7 +22,6 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // загрузка новостей при смене категории
   useEffect(() => {
     loadNews(category);
   }, [category]);
@@ -59,10 +57,8 @@ export default function App() {
 
   return (
     <div className={styles.app}>
-      <h1>Новости мира</h1>
-
+      <h1 className={styles.mainText}>Новости мира</h1>
       <SearchBar onSearch={handleSearch} />
-
       <div className={styles.categories}>
         {CATEGORIES.map((c) => (
           <button

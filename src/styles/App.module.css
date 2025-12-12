@@ -4,6 +4,10 @@
     padding: 20px;
     font-family: Arial, sans-serif;
     }
+
+    .mainText {
+        text-align: center;
+    }
     
     
     .categories {
