@@ -4,15 +4,14 @@ import styles from "../styles/NewsItem.module.css";
 export default function NewsItem({ article, onSelect }) {
   return (
     <div className={styles.item} onClick={onSelect}>
-      {article.urlToImage && (
-        <img className={styles.thumb} src={article.urlToImage} alt="" />
+      {article.image_url && (
+        <img className={styles.thumb} src={article.image_url} alt={article.title} />
       )}
 
-      <div>
+      <div className={styles.content}>
         <h3 className={styles.title}>{article.title}</h3>
         <p className={styles.meta}>
-          {article.source?.name} •{" "}
-          {new Date(article.publishedAt).toLocaleString()}
+          {article.source} • {new Date(article.published_at).toLocaleString()}
         </p>
         <p className={styles.desc}>{article.description}</p>
       </div>

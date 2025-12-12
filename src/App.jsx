@@ -3,8 +3,9 @@ import styles from "./styles/App.module.css";
 import SearchBar from "./components/SearchBar";
 import NewsList from "./components/NewsList";
 import NewsDetail from "./components/NewsDetail";
-import { fetchTopHeadlines, fetchEverything } from "./services/newsApi";
+import { fetchArticles } from "./services/newsApi";
 
+// категории для фильтрации
 const CATEGORIES = [
   "general",
   "business",
@@ -22,6 +23,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // загрузка новостей при смене категории
   useEffect(() => {
     loadNews(category);
   }, [category]);
@@ -29,25 +31,27 @@ export default function App() {
   async function loadNews(cat) {
     setLoading(true);
     setError("");
+    setSelectedArticle(null);
     try {
-      const data = await fetchTopHeadlines(cat);
-      setArticles(data.articles || []);
+      const data = await fetchArticles({ categories: cat });
+      setArticles(data.data || []);
     } catch (e) {
-      setError("Помилка завантаження новин");
+      setError("Ошибка загрузки новостей");
     } finally {
       setLoading(false);
     }
   }
 
-  async function handleSearch(value) {
-    if (!value) return loadNews(category);
+  async function handleSearch(query) {
+    if (!query) return loadNews(category);
     setLoading(true);
     setError("");
+    setSelectedArticle(null);
     try {
-      const data = await fetchEverything(value);
-      setArticles(data.articles || []);
+      const data = await fetchArticles({ search: query });
+      setArticles(data.data || []);
     } catch (e) {
-      setError("Помилка пошуку");
+      setError("Ошибка поиска новостей");
     } finally {
       setLoading(false);
     }
@@ -55,7 +59,7 @@ export default function App() {
 
   return (
     <div className={styles.app}>
-      <h1>Новини світу</h1>
+      <h1>Новости мира</h1>
 
       <SearchBar onSearch={handleSearch} />
 
@@ -71,7 +75,7 @@ export default function App() {
         ))}
       </div>
 
-      {loading && <p className={styles.loading}>Завантаження...</p>}
+      {loading && <p className={styles.loading}>Загрузка...</p>}
       {error && <p className={styles.error}>{error}</p>}
 
       {!selectedArticle ? (

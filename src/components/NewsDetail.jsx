@@ -10,19 +10,18 @@ export default function NewsDetail({ article, onBack }) {
 
       <h2>{article.title}</h2>
 
-      {article.urlToImage && (
-        <img className={styles.image} src={article.urlToImage} alt="" />
+      {article.image_url && (
+        <img className={styles.image} src={article.image_url} alt={article.title} />
       )}
 
       <p className={styles.meta}>
-        {article.source?.name} •{" "}
-        {new Date(article.publishedAt).toLocaleString()}
+        {article.source} • {new Date(article.published_at).toLocaleString()}
       </p>
 
       <p className={styles.text}>{article.content || article.description}</p>
 
       <a href={article.url} target="_blank" rel="noreferrer">
-        Читати повністю →
+        Читать полностью →
       </a>
     </div>
   );

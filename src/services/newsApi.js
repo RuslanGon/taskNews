@@ -1,20 +1,24 @@
-const API_KEY = "ВАШ_API_КЛЮЧ_ТУТ";  // вставь сюда свой ключ
-const BASE = "https://newsapi.org/v2";
+const API_TOKEN = "IjFkvDrveOnmzzIZSeK8L8DZK25hZ90OAUQMAEfo";
+const BASE = "https://api.thenewsapi.com/v1/news";
 
+// загальний запит
 async function request(url) {
   const res = await fetch(url);
-  if (!res.ok) throw new Error("API error");
+  if (!res.ok) throw new Error("Неможливо завантажити дані");
   return res.json();
 }
 
-export function fetchTopHeadlines(category = "general") {
-  return request(
-    `${BASE}/top-headlines?country=us&category=${category}&pageSize=20&apiKey=${API_KEY}`
-  );
-}
+// отримати новини за ключовим словом або категорією
+export function fetchArticles({ search, categories }) {
+  let url = `${BASE}/all?api_token=${API_TOKEN}&limit=30&language=en`;
 
-export function fetchEverything(query) {
-  return request(
-    `${BASE}/everything?q=${query}&sortBy=publishedAt&pageSize=20&language=en&apiKey=${API_KEY}`
-  );
+  if (search) {
+    url += `&search=${encodeURIComponent(search)}`;
+  }
+  
+  if (categories) {
+    url += `&categories=${encodeURIComponent(categories)}`;
+  }
+
+  return request(url);
 }
