@@ -1,0 +1,18 @@
+.detail {
+    padding: 10px;
+  }
+  
+  .back {
+    margin-bottom: 12px;
+  }
+  
+  .image {
+    width: 100%;
+    border-radius: 8px;
+    margin: 12px 0;
+  }
+  
+  .text {
+    margin: 12px 0;
+  }
+  

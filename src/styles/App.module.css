@@ -1,0 +1,49 @@
+.app {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    }
+    
+    
+    .categories {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+    }
+    
+    
+    .catBtn {
+    background: #eee;
+    color: #222;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    }
+    
+    
+    .catBtn:hover {
+    background: #ddd;
+    }
+    
+    
+    .activeBtn {
+    background: #007bff;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    }
+    
+    
+    .loading {
+    font-size: 18px;
+    }
+    
+    
+    .error {
+    color: red;
+    }
