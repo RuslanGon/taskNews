@@ -1,7 +1,14 @@
 import React from "react";
+import { Article } from "../api/newsApi";
 import styles from "../styles/NewsDetail.module.css";
+import { formatDate } from "../utils/formatDate";
 
-export default function NewsDetail({ article, onBack }) {
+interface Props {
+  article: Article;
+  onBack: () => void;
+}
+
+export default function NewsDetail({ article, onBack }: Props) {
   return (
     <div className={styles.detail}>
       <button className={styles.back} onClick={onBack}>
@@ -12,11 +19,11 @@ export default function NewsDetail({ article, onBack }) {
         <img className={styles.image} src={article.image_url} alt={article.title} />
       )}
       <p className={styles.meta}>
-        {article.source} • {new Date(article.published_at).toLocaleString()}
+        {article.source} • {formatDate(article.published_at)}
       </p>
-      <p className={styles.text}>{article.content || article.description}</p>
+      <p>{article.content || article.description}</p>
       <a href={article.url} target="_blank" rel="noreferrer">
-      Читати повністю →
+        Читати повністю →
       </a>
     </div>
   );
