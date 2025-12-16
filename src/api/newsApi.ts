@@ -22,10 +22,12 @@ interface FetchArticlesParams {
 // універсальна функція fetch
 async function request(url: string, signal?: AbortSignal) {
   const res = await fetch(url, { signal });
-  if (!res.ok) throw new Error("Не вдалося завантажити дані");
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Помилка ${res.status}: ${text}`);
+  }
   return res.json();
 }
-
 // експортуємо fetchArticles
 export async function fetchArticles({ search, categories, signal }: FetchArticlesParams) {
   const params = [

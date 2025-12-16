@@ -53,8 +53,15 @@ export default function App() {
       </div>
 
       {loading && <p className={styles.loading}>Завантаження...</p>}
-      {error && <p className={styles.error}>{error}</p>}
-
+      {error && (
+  <div className={styles.error}>
+    <p>Сталася помилка при завантаженні новин:</p>
+    <p>{error}</p>
+    <button onClick={() => loadArticles({ categories: category })}>
+      Спробувати ще раз
+    </button>
+  </div>
+)}
       {selectedArticle ? (
         <NewsDetail article={selectedArticle} onBack={() => setSelectedArticle(null)} />
       ) : (

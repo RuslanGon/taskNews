@@ -18,7 +18,10 @@ export function useAbortableFetch<T>() {
         const result = await fetchFn(controller.signal);
         return result;
       } catch (e: any) {
-        if (e.name !== "AbortError") setError("Помилка завантаження");
+        if (e.name === "AbortError") {
+          return null;
+        }
+        setError(e.message || "Невідома помилка");
         return null;
       } finally {
         setLoading(false);
