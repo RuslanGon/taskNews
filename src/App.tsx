@@ -1,50 +1,38 @@
+// src/App.tsx
 import React, { useState, useEffect, useCallback } from "react";
 import styles from "./styles/App.module.css";
 import SearchBar from "./components/SearchBar";
 import NewsList from "./components/NewsList";
 import NewsDetail from "./components/NewsDetail";
 import { fetchArticles, Article } from "./api/newsApi";
+import { useAbortableFetch } from "./hooks/useAbortableFetch";
 
-const CATEGORIES = ["general","business","entertainment","health","science","sports","technology"];
+const CATEGORIES = ["general", "business", "entertainment", "health", "science", "sports", "technology"];
 
 export default function App() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [category, setCategory] = useState("general");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const loadNews = useCallback((cat: string) => {
-    const controller = new AbortController();
-    setLoading(true);
-    setError("");
-    setSelectedArticle(null);
+  const { fetchData, loading, error } = useAbortableFetch<{ data: Article[] }>();
 
-    fetchArticles({ categories: cat, signal: controller.signal })
-      .then((data) => setArticles(data.data || []))
-      .catch((e) => {
-        if (e.name !== "AbortError") setError("Помилка завантаження новин");
-      })
-      .finally(() => setLoading(false));
+  const loadArticles = useCallback(
+    (params: { search?: string; categories?: string }) => {
+      fetchData((signal) => fetchArticles({ ...params, signal }))
+        .then((res) => {
+          if (res) setArticles(res.data || []);
+        });
+    },
+    [fetchData]
+  );
 
-    return () => controller.abort();
-  }, []);
+  useEffect(() => {
+    loadArticles({ categories: category });
+  }, [category, loadArticles]);
 
-  useEffect(() => { loadNews(category); }, [category, loadNews]);
-
-  const handleSearch = useCallback((q: string) => {
-    const controller = new AbortController();
-    setLoading(true);
-    setError("");
-    setSelectedArticle(null);
-
-    fetchArticles({ search: q, signal: controller.signal })
-      .then((data) => setArticles(data.data || []))
-      .catch((e) => { if (e.name !== "AbortError") setError("Помилка пошуку"); })
-      .finally(() => setLoading(false));
-
-    return () => controller.abort();
-  }, []);
+  const handleSearch = useCallback((query: string) => {
+    loadArticles({ search: query });
+  }, [loadArticles]);
 
   return (
     <div className={styles.app}>
@@ -67,10 +55,10 @@ export default function App() {
       {loading && <p className={styles.loading}>Завантаження...</p>}
       {error && <p className={styles.error}>{error}</p>}
 
-      {!selectedArticle ? (
-        <NewsList articles={articles} onSelect={setSelectedArticle} />
-      ) : (
+      {selectedArticle ? (
         <NewsDetail article={selectedArticle} onBack={() => setSelectedArticle(null)} />
+      ) : (
+        <NewsList articles={articles} onSelect={setSelectedArticle} />
       )}
     </div>
   );
