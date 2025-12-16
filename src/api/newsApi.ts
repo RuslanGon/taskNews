@@ -1,5 +1,5 @@
 const BASE = "https://api.thenewsapi.com/v1/news";
-const API_TOKEN = import.meta.env.VITE_NEWS_API_TOKEN; // Vite використовує import.meta.env
+const API_TOKEN = import.meta.env.VITE_NEWS_API_TOKEN;
 
 export interface Article {
   uuid: string;
